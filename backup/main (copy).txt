@@ -1,0 +1,191 @@
+import discord
+import os
+import responses
+import numpy as np
+
+serial = None
+emojilist = ['🎮', '🅰️', '♟️', '🎵', '📸', '⛹️']
+intents = discord.Intents().all()
+intents.message_content = True
+client = discord.Client(intents=intents)
+database = np.load("database.npy", allow_pickle=True)
+database = database.tolist()
+print((database))
+
+
+async def prichat(message, user2):
+  user = client.get_user(int(user2))
+  await user.send(message)
+
+
+def findindex(user_id):
+  count = -1
+  for i in database:
+    count += 1
+    if i[0] == user_id:
+      return count
+  else:
+    return False
+
+
+async def match(userid, intlist):
+  for i in range(len(database)):
+    dataset = database[i][1]
+    rat4 = []
+    if len(dataset) == 5 and userid != database[i][0]:
+      rating = 0
+      for j in intlist:
+        if j in dataset:
+          rating += 1
+      if rating == 5:
+        database[i][2] = userid
+        return (database[i][0], 5)
+      elif rating == 4:
+        rat4.append(i)
+  if len(rat4) > 0:
+    database[rat4[0]][2] = userid
+    return (database(database[rat4[0]][0], 4))
+
+
+async def matchinfo(user1, user2):
+  user = client.get_user(int(user1))
+  database[findindex(user2)][2]=int(user1)
+  np.save("database", np.array(database, dtype="object"))
+  await user.send(f'You have been matched with user00{findindex(user2)} 👀\n To start chatting use \"!chat\".')
+
+
+async def chat(user):
+  pass
+
+  
+@client.event
+async def on_ready():
+  print("Ready for launch. I am {0.user}".format(client))
+
+
+async def send_message(message, user_message, is_private, user_id=None):
+  try:
+    response = responses.handle_response(user_message)
+    await message.author.send(
+      response) if is_private else await message.channel.send(response)
+
+  except Exception as e:
+    print(e)
+
+
+@client.event
+async def on_message(message):
+  if message.author == client.user:
+    if str(message.content).startswith("Choose any 5 from"):
+      for i in emojilist:
+        await message.add_reaction(i)
+    return
+    # Get data about the user
+  user_message = str(message.content)
+  username = str(message.author)
+  channels = str(message.channel)
+  user_id = message.author.id
+  if message.channel.id == 1056560851458470018 or message.guild == None:
+    if user_message == "!hello" and message.guild != None:
+      print(message)
+      await message.channel.send(message.author.mention + " check your dm.")
+      await send_message(message, user_message, is_private=True)
+    elif message.guild == None:
+      secuserid = database[findindex(user_id)][2]
+      if user_message[0] != '!' and secuserid and database[findindex(
+          secuserid)][2] == user_id:
+          print(user_message)
+          await prichat(user_message, secuserid)
+      elif user_message[0] == '!':
+        # Debug printing
+        print(f"{username} said: '{user_message}' ({channels})")
+        if user_message == "!mingle":
+          x = findindex(user_id)
+          if x is not None:
+            database[x][1] = []  #for old users
+          await send_message(message, user_message, is_private=True)
+        elif user_message == "!stop":
+          user1 = findindex(user_id)
+          user2_id = database[findindex(user_id)][2]
+          user2 = findindex(user2_id)
+          await prichat(
+            f'Your Chat with user00{user2} has ended. Use "!match" to find a new match',
+            user_id)
+          await prichat(f'User00{user1} has ended the chat', user2_id)
+          database[user1][2] = None
+          database[user2][2] = None
+          print(database)
+          np.save("database", np.array(database, dtype="object"))
+
+        if user_message == "!match":
+          print("Matching started.....")
+          await send_message(message, user_message, is_private=True)
+          dataset = database[findindex(user_id)][1]
+          if len(dataset) == 5:
+            matchmade = await match(user_id, dataset)
+            if matchmade is None:
+              print("No match")
+              await message.author.send(
+                "No match found yet. Try again after sometime!")
+            else:
+              x, y = matchmade
+              await message.author.send("Match made with user00" +str(findindex(x)) + " (Match rating: " + str(y) + "/5)")
+              await matchinfo(str(x), message.author.id)
+              print("Matching Done")
+              await message.author.send(
+                f'Your chat with user00{database[findindex(user_id)][2]} starts after they accept the match. You can use !stop to end the chat. Use !match to find a new match'
+              )
+              print(database)
+              np.save("database", np.array(database, dtype="object"))
+          else:
+            await message.author.send("You have selected only " +
+                                      str(len(dataset)) + " interests")
+      else:
+        await message.channel.send('Invalid command, use "!mingle" or "!match"'
+                                   )
+    else:
+      await message.channel.send('Invalid command, use "!hello"')
+
+  @client.event
+  async def on_raw_reaction_add(payload):
+    userid = payload.user_id
+    if userid != 1056298996290834503 and payload.guild_id is None:
+      emoji = emojilist.index(str(payload.emoji))
+      for i in database:
+        if userid == i[0]:  #old user
+          global serial
+          serial = database.index(i)
+          database[serial][1].append(emoji)
+          np.save("database", np.array(database, dtype="object"))
+          break
+
+      else:  #new user
+        emojicode = []
+        emojicode.append(emoji)
+        database.append([userid, emojicode, None])
+        np.save("database", np.array(database, dtype="object"))
+      print(database)
+
+
+@client.event
+async def on_reaction_add(reaction, user):
+  if str(
+      user
+  ) != "Cupid Bot#9612" and reaction.message.guild is None and serial is not None:
+    if len(database[serial][1]) == 5:
+      await reaction.message.channel.send(
+        "You have selected 5 interests. Type \"!match\" to find a match for you.😉"
+      )
+
+
+@client.event
+async def on_raw_reaction_remove(payload):
+  if payload.guild_id is None:
+    userid = payload.user_id
+    emoji = emojilist.index(str(payload.emoji))
+    database[findindex(userid)][1].remove(emoji)
+    np.save("database", np.array(database, dtype="object"))
+    print(database)
+
+
+client.run(os.getenv('TOKEN'))
