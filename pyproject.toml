@@ -14,6 +14,8 @@ discord = "^2.1.0"
 np = "^1.0.2"
 prompt-toolkit = "^3.0.37"
 config = "^0.5.1"
+"discord.py" = "^2.3.2"
+responses = "^0.24.1"
 
 [tool.poetry.dev-dependencies]
 debugpy = "^1.6.2"

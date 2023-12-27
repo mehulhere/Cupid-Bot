@@ -118,7 +118,7 @@ python-versions = "*"
 
 [[package]]
 name = "discord.py"
-version = "2.1.0"
+version = "2.3.2"
 description = "A Python wrapper for the Discord API"
 category = "main"
 optional = false
@@ -351,6 +351,14 @@ gen_docs = ["pytoolconfig", "sphinx-rtd-theme (>=1.0.0)", "sphinx-autodoc-typehi
 doc = ["sphinx (>=4.5.0)", "tabulate (>=0.8.9)"]
 
 [[package]]
+name = "pyyaml"
+version = "6.0.1"
+description = "YAML parser and emitter for Python"
+category = "main"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "replit"
 version = "3.2.4"
 description = "A library for interacting with features of repl.it"
@@ -400,21 +408,37 @@ yapf = ["yapf", "whatthepatch (>=1.0.2,<2.0.0)"]
 
 [[package]]
 name = "requests"
-version = "2.28.1"
+version = "2.31.0"
 description = "Python HTTP for Humans."
 category = "main"
 optional = false
-python-versions = ">=3.7, <4"
+python-versions = ">=3.7"
 
 [package.dependencies]
 certifi = ">=2017.4.17"
-charset-normalizer = ">=2,<3"
+charset-normalizer = ">=2,<4"
 idna = ">=2.5,<4"
-urllib3 = ">=1.21.1,<1.27"
+urllib3 = ">=1.21.1,<3"
 
 [package.extras]
 socks = ["PySocks (>=1.5.6,!=1.5.7)"]
 use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
+
+[[package]]
+name = "responses"
+version = "0.24.1"
+description = "A utility library for mocking out the `requests` Python library."
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+pyyaml = "*"
+requests = ">=2.30.0,<3.0"
+urllib3 = ">=1.25.10,<3.0"
+
+[package.extras]
+tests = ["pytest (>=7.0.0)", "coverage (>=6.0.0)", "pytest-cov", "pytest-asyncio", "pytest-httpserver", "flake8", "types-pyyaml", "types-requests", "mypy", "tomli-w", "tomli"]
 
 [[package]]
 name = "rope"
@@ -541,7 +565,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "flake8 
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8.0,<3.9"
-content-hash = "85fefb874a0330fdf575d9cd27a1fadb530bb309905b4283828eb5984dd20344"
+content-hash = "31fb66ffc2ccce799d94fe087a9c38837bd46c9a30164f936a8b906432e46f44"
 
 [metadata.files]
 aiohttp = []
@@ -575,9 +599,11 @@ pyflakes = []
 pyparsing = []
 python-lsp-jsonrpc = []
 pytoolconfig = []
+pyyaml = []
 replit = []
 replit-python-lsp-server = []
 requests = []
+responses = []
 rope = []
 toml = []
 tomli = []

@@ -1,10 +1,8 @@
 import discord
-import config
-import asyncio
 import os
 import responses
 import json
-from discord.ext import commands
+
 # Future Changelogs:
 # better UI-stickers, emojis
 
@@ -19,39 +17,34 @@ tickwrong=['✅','❎']
 ticktok=['☑️','❌']
 intents = discord.Intents().all()
 intents.message_content = True
-
-bot = commands.Bot(command_prefix = "!", intents=intents)
+client = discord.Client(intents=intents)
 with open("database.json", "r") as f:
     database = json.load(f)
 #dictionary={userid:[gender, emoji, matchid,sno]}
 print(database)
 
-@bot.event
-async def on_ready():
-  print('Online.')
-      
-# Function to emojis
+
+# Function to add emojis from emojilist
 async def add_emojis(message, emojilist):
     for emoji in emojilist:
         await message.add_reaction(emoji)
 
-
-# Function to handle "My Sex" message
+# Function to handle gender
 async def handle_my_sex_message(message):
   if message.content.startswith("My Sex"):
       await add_emojis(message, numgender)
 
-# Function to handle "Chat with" message
+# Function to handle gender of interest
 async def handle_chat_with_message(message):
   if message.content.startswith("Chat with"):
       await add_emojis(message, gender)
 
-# Function to handle "Repeated Match" message
+# Function to handle repeated match settting 
 async def handle_repeated_match_message(message):
   if message.content.startswith("Repeated Match"):
       await add_emojis(message, tickwrong)
 
-# Function to handle "Choose any 5 from" message
+# Function to handle interests
 async def handle_choose_5_from_message(message):
   if message.content.startswith("Choose any 5 from"):
       await add_emojis(message, emojilist)
@@ -61,12 +54,15 @@ async def handle_reveal_identity_message(message):
   if "wants to reveal their identity. Do you want to reveal your identity? - Cupid" in message.content:
       await add_emojis(message, ticktok)
 
+
+#handles "!register" response
 async def handle_register_message(message,user_id):
   await message.channel.send(message.author.mention + " You are registered for Blind Dating💍, check your dm.")
   database[str(user_id)]=[None, None, None, len(database)+1, None]
   save(database)
   await send_message(message, "!register", is_private=True)
 
+#finds matches for the user
 async def start_matching(user_id, message):
     print("Matching started.....")
     await send_message(message, "!match", is_private=True)
@@ -97,7 +93,7 @@ async def start_matching(user_id, message):
                                   str(len(dataset)) + " interests")
 
 async def prichat(message, userch): #sends a message to user
-  user = bot.get_user(int(userch))
+  user = client.get_user(int(userch))
   await user.send(message)
 
 
@@ -137,7 +133,7 @@ async def match(userid, emjmatchlist): #finds match and changes database[userid1
 
 
 async def matchinfo(user1, user2): #in the data of user2, change database[user2][2] to user1 and notofy user1 
-  user = bot.get_user(int(user2))
+  user = client.get_user(int(user2))
   database[str(user2)][2]=str(user1)
   save(database)
   await user.send(f'You have been matched with user00{database[str(user1)][3]} 👀')
@@ -151,7 +147,9 @@ async def chat(user1): #user1 accepts the match, confirmation.
   print(database)
   await prichat(f"User 00{database[str(user1)][3]} has accepted the match. Use !help for knowing all available commands.\n Your chat starts below 👇 ", user2)
   
-
+@client.event
+async def on_ready():
+  print("Ready for launch. I am {0.user}".format(client))
 
 
 async def send_message(message, user_message, is_private, user_id=None): #sending message
@@ -164,11 +162,10 @@ async def send_message(message, user_message, is_private, user_id=None): #sendin
     print(e)
 
 #main
-@bot.event #dictionary={userid:[gender, emoji, matchid]}
+@client.event #dictionary={userid:[gender, emoji, matchid]}
 async def on_message(message): #what happends when a particular message is recieved
-  print(0)
   user_message = str(message.content) #message
-  if message.author == bot.user: #if author=cupid
+  if message.author == client.user: #if author=cupid
     # Handle each message type separately and Adding Emojis
     await handle_my_sex_message(message)
     await handle_chat_with_message(message)
@@ -263,24 +260,9 @@ async def on_message(message): #what happends when a particular message is recie
         await message.channel.send('Invalid command, use proper commands')       
     else:
       await message.channel.send('Invalid command, use "!register"')
-from discord.ext import commands
-bot = commands.Bot(command_prefix='!', intents=intents)
-from prompt_toolkit import prompt
-# @bot.event
-async def on_message_completion(ctx, message, completion):
-    if message.content.startswith('!'):
-        # Here you can generate a list of command suggestions based on the 
-        print(f'completion: {completion}')
-        # user's input. For example:
-        available_commands = ['!mingle', '!gender', '!match', '!stop']
-        suggestions = [cmd for cmd in available_commands if cmd.startswith(message.content)]
-        if suggestions:
-            # Prompt the user with command suggestions and return the selected command
-            suggestion = prompt(suggestions=suggestions)
-            return suggestion
-    return None
-  
-# @bot.event
+    
+
+@client.event
 async def on_raw_reaction_add(payload): #adds interests to database
     userid = payload.user_id
     
@@ -324,7 +306,7 @@ async def on_raw_reaction_add(payload): #adds interests to database
           
       
         
-# @bot.event
+@client.event
 async def on_reaction_add(reaction, user): #proceeds after adding 5 interests
   if str(user) != "Cupid Bot#9612" and reaction.message.guild is None:
     
@@ -346,7 +328,7 @@ async def on_reaction_add(reaction, user): #proceeds after adding 5 interests
           
           
 
-# @bot.event
+@client.event
 async def on_raw_reaction_remove(payload): #removes interests for a specific user
   if payload.guild_id is None:
     userid = payload.user_id
@@ -355,11 +337,5 @@ async def on_raw_reaction_remove(payload): #removes interests for a specific use
     save(database)
     print(database)
 
-async def setup():
-  print('Setting up...')
 
-async def main():
-  await setup()
-  await bot.start(config.os.getenv('TOKEN'))
-
-asyncio.run(main())
+client.run(os.getenv('TOKEN'))
