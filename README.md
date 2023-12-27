@@ -1,4 +1,3 @@
-### README.md
 #### Discord Blind Dating Bot
 
 ##### Overview
