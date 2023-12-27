@@ -1,4 +1,6 @@
 #### Discord Blind Dating Bot
+##### About Me:
+Hii, I am Mehul Pahuja. This was my first project. I coded this in the first sem of my Btech
 
 ##### Overview
 This Discord bot facilitates a blind dating system within Discord channels, allowing users to register, set up preferences, match with others based on interests and gender orientation, and communicate privately.
