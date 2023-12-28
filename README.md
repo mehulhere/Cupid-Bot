@@ -1,3 +1,4 @@
+https://github.com/mehulhere/Cupid-Bot/assets/99717294/579f6a9b-4515-4ee0-a605-7604da052c55
 #### Discord Blind Dating Bot
 ##### About Me:
 Hii, I am Mehul Pahuja. This is my first project and I coded this in the first sem of my Btech
