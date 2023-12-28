@@ -6,29 +6,46 @@ https://github.com/mehulhere/Cupid-Bot/assets/99717294/36f99c7d-95b8-4596-a18d-a
 
 
 #### Discord Blind Dating Bot
-##### About Me:
-Hii, I am Mehul Pahuja. This is my first project and I coded this in the first sem of my Btech
 
 ##### Overview
 This Discord bot facilitates a blind dating system within Discord channels, allowing users to register, set up preferences, match with others based on interests and gender orientation, and communicate privately.
 
-##### Features
-- **Registration**: Users can register with the bot using `!register` and set up their gender orientation and interests.
-- **Matching**: Initiate matching with other users using `!match` based on selected interests and gender preferences.
-- **Chatting**: Communicate privately with matched partners using the `!chat` command in a dedicated private channel.
-- **Interaction Handling**: Handles various commands for preferences, ending chats, reporting abuse, etc.
+
+####Features
+
+- **Registration**: Easily register with the bot using the `!register` command. During registration, you'll be able to set your gender orientation and interests.
+- **Matching**: Find compatible matches based on your preferences using the `!match` command. The bot will match you with others who share your selected interests and gender preferences.
+- **Private Chatting**: Communicate seamlessly with your matched partners in a dedicated private channel using the `!chat` command.
+- **Comprehensive Interaction Handling**: Cupid supports various commands to manage your experience, including:
+    - Setting preferences: 
+      - Use `!mingle` to set your gender and interests.
+      - Use `!gender` to change your gender preferences.
+    - Ending chats: 
+      - Use `!end` to end a chat if you wish to stop communicating with a match.
+    - Reporting abuse: 
+      - Use `!report` to report any abusive behavior you encounter.
+    - Revealing identity: 
+      - Use `!reveal` to mutually reveal your Discord IDs with a match, if you both agree to do so.
+    - Stopping matching: 
+      - Use `!stop` to deactivate your profile and stop further matching.
+
 
 ##### How to Use
-1. **Registration**: Use `!register` to register with the bot and set up your preferences.
-2. **Setting Preferences**: Use commands like `!gender`, `!mingle`, and react to messages to set gender and interests.
-3. **Matching**: Initiate matching using `!match` to find a match based on your preferences.
-4. **Chatting**: Once matched, use `!chat` to start a private chat with your match.
-5. **Additional Commands**: `!end` to end a chat, `!report` to report abusive behavior, etc.
+1. **Registration**: Use `!register` to register with cupid.
+2. **Setting Preferences**: Use `!mingle` to set gender and interests.
+3. **Gender Preferences**: Use `!gender` to change gender preferences.
+4. **Matching**: Initiate matching using `!match` to find a match based on your preferences.
+5. **Chatting**: Once matched, use `!chat` or wait for your match to do so.
+6. **End chat**: `!end` to end a chat.
+7. **Report Abuse**: `!report` can be used while chatting
+8. **Reveal Identity**: `!reveal` can be used while chatting
+9. **Stop Matching**: `!stop` (deactivates profile)
+
 
 ##### Technical Details
 - The bot is written in Python using the `discord.py` library.
 - Utilizes a JSON database (`database.json`) to store user information.
-- Handles messages, reactions, and commands to manage the blind dating process.
+- Handles messages, reactions, and commands
 
 ##### Setup Instructions
 1. Clone the repository.
@@ -36,8 +53,10 @@ This Discord bot facilitates a blind dating system within Discord channels, allo
 3. Configure environment variables (e.g., Discord Bot Token).
 4. Run the bot script.
 
-##### Contributions and Issues
-For contributions or issues, feel free to raise a PR or open an issue in the repository.
-
 ##### Authors
 Mehul Pahuja
+
+##### About:
+Hello Hello, I am Mehul, I coded this bot with a goal of making our own IIITD Discord server, which was never completed. Credits: https://github.com/gautam1228.
+This was coded in my first semester of btech, when I had incomplete knowledge(Still do), apologies in advance for any mistakes I have made. 
+Anyone is free to make changes in this code and use it as their own(Please consider creating a PR if the change is significant)
