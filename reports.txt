@@ -18,4 +18,25 @@ works
 You are chatting with <@1078025818502074418>
 Asking user005 to reveal their identity. -Cupid Bot
 !reveal
-are are sir 😳😳👌🏻👌🏻
+are are sir 😳😳👌🏻👌🏻556780158804033567 is reported by 637345182651514891 for the following messages:
+!report
+awfw
+dafg
+User 002 has accepted the match. Use !help for knowing all available commands.
+ Your chat starts below 👇
+Invalid command, use "!end" to end the chat or wait for sometime⏳
+!chat
+Invalid command, use "!end" to end the chat or wait for sometime⏳
+add
+Your chat with user002 starts after they accept the match.
+Match made with user002 (Matching Qualities: 4/5)
+Finding a match.......👀
+!match
+Use "!match" to start search for a new match or use !stop to stop further matching.
+User002 has ended the chat
+Asking user002 to reveal their identity(discord_id). -Cupid Bot
+!reveal
+ye
+user002 wants to reveal their identity(discord_id). Do you want to reveal your identity? - Cupid
+Asking user002 to reveal their identity(discord_id). -Cupid Bot
+!reveal
