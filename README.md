@@ -1,5 +1,9 @@
 
-https://github.com/mehulhere/Cupid-Bot/assets/99717294/b2515ecd-ae82-4aeb-86ec-94baa5104c22
+
+
+https://github.com/mehulhere/Cupid-Bot/assets/99717294/36f99c7d-95b8-4596-a18d-ad55f84c091d
+
+
 
 #### Discord Blind Dating Bot
 ##### About Me:
