@@ -10,7 +10,7 @@ def handle_response(message) -> str:
         return "`You can try !mingle`"
       
     elif p_message == '!mingle':
-        return ("Choose any 5 from the following. \n🎮 : Gaming \n🅰️ : Anime \n♟️ : Chess \n🎵 : Music \n📸 : Photography \n ⛹️ : Sports")
+      return ("Welcome to the realm of love's guiding hand!💘\nChoose any 5 from the following. \n🅰️ : Anime \n🎨 : Art \n🍳 : Cooking\n🎮 : Gaming \n🎬 : Movies \n🎵 : Music \n📸 : Photography \n🐶 : Pets \n📚 : Reading \n⛹️ : Sports \n🧑‍💻 : Technology\n🎭 : Theater \n🧘 : Yoga")
       
     else:
         return 'Yeah, I don\'t know. Try typing "!help".'

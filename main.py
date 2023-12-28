@@ -6,14 +6,11 @@ import threading
 lock = threading.Lock()
 
 # Future Changelogs:
-# better UI-stickers, emojis
-
-# !feedback- save
 # action on reports
 # ice-breaking games
 
 cupidChannel = '105656085145847001' #Can be altered based on the server, cupid is added.
-emojilist = ['🎮', '🅰️', '♟️', '🎵', '📸', '⛹️'] #all interest emoji's
+emojilist = ['🅰️', '🎨', '🍳', '🎮', '🎬', '🎵', '📸', '🐶', '📚', '⛹️', '🧑‍💻', '🎭', '🧘'] #all interest emoji's
 gender=['🧑','👸','🌈','🧑‍🤝‍🧑']
 numgender=['1️⃣','2️⃣','3️⃣']
 tickwrong=['✅','❎']
@@ -29,8 +26,6 @@ except FileNotFoundError as e:
   print(e)
   database = {}
 
-
-
 # Function to add emojis from emojilist
 async def add_emojis(message, emojilist):
     for emoji in emojilist:
@@ -38,22 +33,22 @@ async def add_emojis(message, emojilist):
 
 # Function to handle gender
 async def handle_my_sex_message(message):
-  if message.content.startswith("My Sex"):
+  if message.content.startswith("I am"):
       await add_emojis(message, numgender)
 
 # Function to handle gender of interest
 async def handle_chat_with_message(message):
-  if message.content.startswith("Chat with"):
+  if message.content.startswith("Looking to chat with"):
       await add_emojis(message, gender)
 
 # Function to handle repeated match settting 
 async def handle_repeated_match_message(message):
-  if message.content.startswith("Repeated Match"):
+  if message.content.startswith("Repeated Matching On/Off"):
       await add_emojis(message, tickwrong)
 
 # Function to handle interests
 async def handle_choose_5_from_message(message):
-  if message.content.startswith("Choose any 5 from"):
+  if message.content.startswith("Welcome to the realm of love's guiding hand!💘\nChoose any 5 from the following"):
       await add_emojis(message, emojilist)
 
 # Function to handle "reveal identity" message
@@ -65,9 +60,9 @@ async def handle_reveal_identity_message(message):
 #handles "!register" response
 async def handle_register_message(message,user_id, private):
   if (private):
-    await message.channel.send(message.author.mention + " You are registered for Blind Dating💍")
+    await message.channel.send(message.author.mention + " You are registered for Blind Dating💖")
   else:
-    await message.channel.send(message.author.mention + " You are registered for Blind Dating💍, check your dm.")
+    await message.channel.send(message.author.mention + " You are registered for Blind Dating💖, Please check your dm.")
   print(f"user{len(database)+1} registered")
   database[str(user_id)]=[None, None, None, len(database)+1, [None], [0,0,0]] #GendersUser/Pref, Interests, PairID, UserSID, RepeatedMatchedUsers(if on), MatchingOn/ChatReqAccepted
   save(database)
@@ -77,9 +72,9 @@ async def endChatHandler(user_id, pair_id):
     requestorSID = database[str(user_id)][3]  
     pairSID = database[str(pair_id)][3] 
     await privateChat(
-      f'Your Chat with user00{pairSID} has ended. Use "!match" to start search for a new match or use !stop to stop further matching.', user_id)
+      f'Your Chat with user00{pairSID} has ended. Ready for a new match? Just use \"!match\" to begin your search for a perfect match! You can always use !stop to pause future matching. 💘✨', user_id)
     await privateChat(f'User00{requestorSID} has ended the chat', pair_id)
-    await privateChat('Use "!match" to start search for a new match or use !stop to stop further matching.', pair_id)
+    await privateChat("Ready for a new match? Just use \"!match\" to begin your search for a perfect match! You can always use !stop to pause future matching. 💘✨")
 
     if database[str(user_id)][5][2]==1: #if repeated matching off 
       database[str(user_id)][4].append(pair_id)
@@ -104,7 +99,7 @@ async def start_matching(user_id, message):
     if matchmade is None:
         print("No match")
         await message.author.send(
-            "No match found yet. We will inform you, if someone gets matched with you🤗")
+            "No love connections yet! Don't worry, We'll let you know when someone connects with you! 😊")
     else:
         userItem, rating = matchmade
         await message.author.send("Match made with user00" +str(database[str(userItem)][3]) + " (Matching Qualities: " + str(rating) + "/5)")
@@ -167,8 +162,8 @@ async def matchinfo(user1, user2): #in the data of user2, change database[user2]
   user = client.get_user(int(user2))
   database[str(user2)][2]=int(user1)
   save(database)
-  await user.send(f'You have been matched with user00{database[str(user1)][3]} 👀')
-  await user.send('To start chatting use \"!chat\".')
+  await user.send(f"Congratulations! You've found a match with user00{database[str(user1)][3]}!")
+  await user.send("Start chatting by typing \"!chat\" and let the magic begin! ✨")
 
 
 async def chat(user1): #user1 accepts the match, confirmation.
@@ -177,7 +172,7 @@ async def chat(user1): #user1 accepts the match, confirmation.
   database[str(user2)][5][1] = 1 #Chatting Enabled for User2
   save(database)
   # print(database)
-  await privateChat(f"User 00{database[str(user1)][3]} has accepted the match. Use !help for knowing all available commands.\n Your chat starts below 👇 ", user2)
+  await privateChat(f"💘 User 00{database[str(user1)][3]} has agreed to the match! Type !help to discover all the magical commands available. Your chat begins below! 👇")
 
 @client.event
 async def on_ready(): #runs when bot is online
@@ -227,13 +222,13 @@ async def on_message(message): #Called when any message is recieved
           chatEnabled = True if(database[str(user_id)][5][1] == 1 and database[str(pair_id)][5][1] == 1) else False
           if (not chatEnabled): #Chat Disabled
             if user_message == "!chat" and database[str(user_id)][5][1] == 1: 
-              print("Chat Starting...")
-              await message.author.send("Use !help for knowing all available commands.\nYour chat starts below 👇")
+              print("Chat Initiated... 💬")
+              await message.author.send("All set, Ready to spread love? Just type !help for all the magical commands! Let's start the sweet talk below! 👇💘")
               await chat(user_id)
             elif user_message == "!end": #stop the chat
               await endChatHandler(user_id, pair_id)
             else:
-              await message.channel.send('Invalid command, use "!end" to end the chat')
+              await message.channel.send('Oops!🤕 Invalid command, use "!end" to end the chat')
               return
 
           else: #Chat Enabled
@@ -244,10 +239,10 @@ async def on_message(message): #Called when any message is recieved
               return 
 
           #Conditional programming for Cupid Commands when paired
-            elif user_message=="!reveal":
-              userch=database[str(user_id)][2]
-              await privateChat(f"Asking user00{database[str(userch)][3]} to reveal their identity(discord_id). -Cupid Bot",user_id)
-              await privateChat(f"user00{database[str(user_id)][3]} wants to reveal their identity(discord_id). Do you want to reveal your identity? - Cupid",userch)
+            elif user_message == "!reveal":
+              userch = database[str(user_id)][2]
+              await privateChat(f"💌 Asking user00{database[str(userch)][3]} if they're up for revealing identities. - **Cupid**", user_id)
+              await privateChat(f"💌 user00{database[str(user_id)][3]} is curious about revealing both of your identities. Do you feel like unveiling yours? - **Cupid**", userch)
 
             elif user_message == "!report":
                 messages = []
@@ -256,16 +251,16 @@ async def on_message(message): #Called when any message is recieved
                 with open("reports.txt", "a") as f:
                     f.write(f"{database[str(user_id)][2]} is reported by {user_id} for the following messages:\n")
                     f.write("\n".join(messages))
-                await message.author.send("Last 20 messages of your match have been reported. If you want to end the chat, use !end.")
+                await message.author.send("We have noted your concern and we'll take action shortly. If you'd like to wrap up this chat, use !end. 💌🔒")
 
             elif user_message == "!help":
-              await message.channel.send('Commands:\n !end- To end the chat\n !reveal- To reveal your identity if both agree\n !report- To report abusive behaviour or harrasment\n')
+              await message.channel.send("Commands: \n!end - To end the chat 🏁\n!reveal - To unveil your identity(@discord) if your hearts align 💘\n!report - To flag any unkindness/harassment⚠️")
 
-            elif user_message == "!end": #stop the chat
+            elif user_message == "!end": #end the chat
               await endChatHandler(user_id, pair_id)
 
             else:
-              await message.channel.send('Invalid command, use "!help" to get a list of all commands')
+              await message.channel.send('Oops!🤕 Invalid command, Type "!help" to discover all available commands')
 
 
 
@@ -293,19 +288,19 @@ async def on_message(message): #Called when any message is recieved
           elif user_message == "!stop": #Stops Future Matching
             database[str(user_id)][5][0] = 0 #Matching Disabled
             save(database)
-            await message.channel.send('Matching Profile Deactivated')
+            await message.channel.send("Deactivating the matching profile... Cupid's work is done for now.")
 
           else:
-            await message.channel.send('Invalid command, use "!mingle"')
+            await message.channel.send('Oops!🤕 Invalid command, use "!mingle"')
           return
 
         else:
             await message.channel.send('Invalid command, use "!mingle" to change interests or wait for sometime⏳')
             return
       else:
-          await message.channel.send('You haven\'t registered yet, use "!register"')       
+          await message.channel.send("Hold your love spell!💖 Use '!register' to get started.")       
     else:
-        await message.channel.send('Invalid command, use "!register"')
+        await message.channel.send('Oops!🤕 Invalid command, use "!register"')
 
 
 @client.event
@@ -358,20 +353,24 @@ async def on_reaction_add(reaction, user):
 
     if len(database[str(user.id)][1]) == 5: #If 5 Interests are chosen
       user_message=reaction.message.content
+      interestsChoosenMessage = "Yay! you've chosen 5 lovely interests. "
+      userGenderMessage = "I am: \n1️⃣. Male\n2️⃣. Female\n3️⃣. Other"
+      genderPrefMessage = "Looking to chat with:"
+      repeatedMatchingMessage = "Repeated Matching On/Off:"
+      print(user_message)
+      print(genderPrefMessage)
+      if user_message.startswith("Welcome to the realm of love's guiding hand"):
+        await reaction.message.channel.send(interestsChoosenMessage)
+        await reaction.message.channel.send(userGenderMessage)
 
-      if user_message.startswith("Choose"):
-        await reaction.message.channel.send("You have selected 5 interests. ")
-        await reaction.message.channel.send("My Sexual Orientation is: \n1️⃣. Male\n2️⃣. Female\n3️⃣. Others")
+      elif user_message == userGenderMessage:
+          await reaction.message.channel.send(genderPrefMessage)
+      elif user_message == genderPrefMessage:
+          print("done")
+          await reaction.message.channel.send(repeatedMatchingMessage)
 
-      elif user_message.startswith("My Sex"):
-          await reaction.message.channel.send('Chat with: ')
-
-      elif user_message.startswith("Chat wi"):
-          await reaction.message.channel.send('Repeated Matching On/Off: ')
-
-      elif user_message.startswith("Repeated Matc"):
-          await reaction.message.channel.send('Type "!match" to find a match for you.😉')
-
+      elif user_message.startswith(repeatedMatchingMessage):
+          await reaction.message.channel.send("Ready to find your perfect match? Just type \"!match\" and let's sprinkle some love! 💘")
 
 
 @client.event
