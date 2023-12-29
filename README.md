@@ -5,10 +5,10 @@ https://github.com/mehulhere/Cupid-Bot/assets/99717294/36f99c7d-95b8-4596-a18d-a
 
 
 
-#### Discord Blind Dating Bot
+#### Cupid Discord Bot
 
 ##### Overview
-This Discord bot facilitates a blind dating system within Discord channels, allowing users to register, set up preferences, match with others based on interests and gender orientation, and communicate privately.
+Cupid, a Discord bot, operates as your discreet matchmaker, facilitating anonymous connections among users with shared interests and gender preferences. It enables anonymous chatting, allowing users to explore common ground and reveal their identities only when comfortable. Cupid prioritizes connections based on shared passions, bypassing any bias towards appearances or backgrounds. Additionally, it includes features for chat moderation, enabling users to report and cease conversations when necessary.
 
 
 ####Features
